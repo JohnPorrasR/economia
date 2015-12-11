@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+	<link rel="stylesheet" href="jquery-ui.css">
+	<style>
+		body{
+			background-color: #cacaca;
+		}
+		.container{
+			border: 1px solid #cacaca;
+			background-color: #ffffff;
+		}
+		.logo, .texto, .calculo{
+			margin:  auto;
+			width: 100%;
+			display: inline-block;
+		}
+		.logo{
+			text-align: center;
+		}
+		.contentText{
+			display: inline-block;
+			width: 100%;
+		}
+		.contentItem{
+			float: left;
+			width: 45%;
+		}
+		.divLabel{
+			width: 20%;
+		}
+		label{
+			cursor: pointer;
+			padding: 5px 40px;
+			font-size: 16px;
+		}
+	</style>
+</head>
+<body>
+<div class="container">
+	<div class="logo">
+		<h1><!-- Ing. Économica --> </h1>
+	</div>
+	<div class="texto">
+		<div class="contentText">
+			<h3><!-- Método Francés --> </h3>
+			<br>
+			<br>
+		</div>
+		<div class="contentText">
+			<div class="contentItem divLabel">
+				<label for="txtPres">Préstamo</label>
+			</div>
+			<div class="contentItem">
+				<input type="text" id="txtPres" class="form-control">
+			</div>
+		</div>
+		<div class="contentText">
+			<div class="contentItem divLabel">
+				<label for="txtTEM">TEM</label>
+			</div>
+			<div class="contentItem">
+				<input type="text" id="txtTEM" class="form-control">
+			</div>
+		</div>
+		<div class="contentText">
+			<div class="contentItem divLabel">
+				<label for="txtNper">Nper</label>
+			</div>
+			<div class="contentItem">
+				<input type="text" id="txtNper" class="form-control">
+			</div>
+		</div>
+		<div class="contentText">
+			<div class="contentItem divLabel">
+				<label for="txtFecPres">Fecha de Préstamo</label>
+			</div>
+			<div class="contentItem">
+				<input type="text" id="txtFecPres" class="form-control">
+			</div>
+		</div>
+		<div class="contentText">
+			<div class="contentItem divLabel">
+				<label for="txtDiaPago">Dìa de Pago</label>
+			</div>
+			<div class="contentItem">
+				<input type="text" id="txtDiaPago" class="form-control">
+			</div>
+		</div>
+		<div class="contentText">
+			<div class="contentItem divLabel">
+				<label for="txtAportes">Portes</label>
+			</div>
+			<div class="contentItem">
+				<input type="text" id="txtAportes" class="form-control">
+			</div>
+		</div>
+		<div class="contentText">
+			<div class="contentItem divLabel">
+				<label for="txtCoutaDoble">Cuota Doble</label>
+			</div>
+			<div class="contentItem">
+				<input type="text" id="txtCoutaDoble" class="form-control">
+			</div>
+		</div>
+		<div class="contentText">
+			<div class="contentItem divLabel">
+				<label for="txtTEDTotal">TED total</label>
+			</div>
+			<div class="contentItem">
+				<input type="text" id="txtTEDTotal" class="form-control">
+			</div>
+		</div>
+		<div class="contentText">
+			<div class="contentItem divLabel">
+				<label for="txtCuatoPrestamo">Cuota Prestamo</label>
+			</div>
+			<div class="contentItem">
+				<input type="text" id="txtCuatoPrestamo" class="form-control">
+			</div>
+		</div>
+	</div>
+	<br><br>
+	<div class="calculo">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+				<th>Fecha de pago</th>
+				<th>Periodo</th>
+				<th>Saldo inicial</th>
+				<th>Interés</th>
+				<th>Amortización</th>
+				<th>Cuota</th>
+				<th>Aportes</th>
+				<th>Cuota total</th>
+				<th>Saldo deudor</th>
+				<th>Días transc</th>
+				<th>Condición pago doble</th>
+				<th>Factor</th>
+				</tr>
+			</thead>
+			<tbody id="resultado">
+				<tr>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<script src="jquery.js" ></script>
+<script src="jquery-ui.js" ></script>
+<script>
+	$(document).ready(function(){
+
+		$('input').focus(function(){
+			$('#resultado').html('');
+			var txtPres = $('#txtPres').val();
+			var txtTEM = $('#txtTEM').val();
+			var txtNper = $('#txtNper').val();
+			var txtFecPres = $('#txtFecPres').val();
+			var txtDiaPago = $('#txtDiaPago').val();
+			var txtAportes = $('#txtAportes').val();
+			var txtCoutaDoble = $('#txtCoutaDoble').val();
+			var txtTEDTotal = $('#txtTEDTotal').val();
+			var txtCuatoPrestamo  = $('#txtCuatoPrestamo').val();
+
+			var saldoIni = txtPres;
+			var interes = 0;
+			var TEDTotal = (Math.pow((1+(txtTEM/100)), (1/(365/12)))-1)*100;
+			var mes = "";
+			var CoutaDoble = 0;
+			var CuatoPrestamo = 0;
+
+			if(txtCoutaDoble > 0){
+				CuatoPrestamo = 2;
+			}else{
+				CuatoPrestamo = 1;
+			}
+
+			$("#txtTEDTotal").val( redondeoDecimales(TEDTotal, 4) );
+			d = txtFecPres.substring(0 , 2);
+			m = parseInt(txtFecPres.substring(3 , 5));
+			a = parseInt(txtFecPres.substring(6 , 10));
+			diasTranscuridos = 0;
+			factor = 0;
+			factorTotal = 0;
+			Cuota = 0;
+			CuotaTotal = 0;
+			AporteTotal = 0;
+			Amortiza = 0;
+			saldoDeudor = 0;
+			saldoIni = parseInt(txtPres);
+			interesTotal = 0;
+			AmortizaTotal = 0;
+			subCoutaTotal = 0;
+			subCoutaTotalFinal = 0;
+			for(i = 1; i<= txtNper; i++){
+				diasTranscuridos = diasTranscuridos + diasPorMes(m,a);
+				interes = redondeoDecimales(saldoIni * (Math.pow((1+(txtTEDTotal/100)), (diasPorMes(m, a)))-1), 4);
+				factor = 1/(Math.pow(((1+(txtTEDTotal/100))), (diasTranscuridos*CuatoPrestamo) ));
+				m = m + 1;
+				if(m > 12){
+					m = 1;
+					a = a + 1;
+				}
+				if(m < 10){
+					mes = '0'+ m.toString();
+				}else{
+					mes = m.toString();
+				}
+				var fecha = d+"-"+mes+"-"+a;
+				factorTotal = factorTotal + parseFloat(redondeoDecimales(factor,4));
+				Cuota = txtCuatoPrestamo * CuatoPrestamo;
+				CuotaTotal = CuotaTotal + parseFloat(Cuota);
+
+				Amortiza = redondeoDecimales((parseFloat(Cuota) - parseFloat(interes)), 4);
+
+				AporteTotal = AporteTotal + parseInt(txtAportes);
+
+				saldoDeudor = redondeoDecimales((saldoIni - Amortiza), 4);
+
+				subCoutaTotal = parseFloat(Cuota) + parseFloat(txtAportes);
+
+				$('#resultado').append("<tr><td>"+fecha+"</td><td>"+i+"</td><td>"+saldoIni+"</td><td>"+interes+"</td><td>"+Amortiza+"</td><td>"+Cuota+"</td><td>"+txtAportes+"</td><td>"+subCoutaTotal+"</td><td>"+saldoDeudor+"</td><td>"+diasTranscuridos+"</td><td>"+CuatoPrestamo+"</td><td>"+redondeoDecimales(factor, 4)+"</td></tr>");
+
+				saldoIni = saldoDeudor;
+				interesTotal = interesTotal + parseFloat(interes);
+				AmortizaTotal = AmortizaTotal + parseFloat(Amortiza);
+				subCoutaTotalFinal = subCoutaTotalFinal + subCoutaTotal;
+			}
+			$('#resultado').append("<tr><td></td><td></td><td><b>Total</b></td><td><b>"+interesTotal+"</b></td><td><b>"+AmortizaTotal+"</b></td><td><b>"+redondeoDecimales(CuotaTotal, 4)+"</b></td><td><b>"+AporteTotal+"</b></td><td><b>"+redondeoDecimales(subCoutaTotalFinal, 4)+"</b></td><td></td><td></td><td></td><td><b>"+redondeoDecimales(factorTotal, 4)+"</b></td></tr>");
+			$('#txtCuatoPrestamo').val(redondeoDecimales((txtPres / factorTotal), 4));
+		});
+
+		$( "#txtFecPres" ).datepicker({ dateFormat: 'dd-mm-yy' }).val();
+
+	});
+		function redondeoDecimales(numero,decimales)
+		{
+			var original=parseFloat(numero);
+			return numero.toFixed(decimales);
+		}
+		function diasPorMes(mes, year) {
+		  return new Date(year || new Date().getFullYear(), mes, 0).getDate();
+		}
+</script>
+</body>
+</html>
